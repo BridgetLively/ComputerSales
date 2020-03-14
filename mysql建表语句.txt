@@ -1,0 +1,284 @@
+create database demo_sales;
+use demo_sales;
+create table if not exists user(
+    id int(11) auto_increment primary key,
+    username varchar(255) not null unique,
+    password varchar(255) not null,
+    name varchar(255) default null,
+    phone varchar(255) default null,
+    email varchar(255) default null,
+    addr varchar(255) default null,
+    ticket varchar(255) default null,
+    card varchar(255) default null,
+    user_status varchar(255) default null,
+    credit int default 10
+);
+create table if not exists message(
+    id int(11) auto_increment primary key,
+    userid int(11) not null,
+    comment varchar(255) default null
+);
+alter table message add constraint fk_userid foreign key(userid) references user(id);
+create table if not exists orderlist(
+    id int(11) auto_increment primary key,
+    orderid int(11) default null,
+    userid int(11) not null,
+    standard_id int(11) default null,
+    diy_id int(11) default null
+);
+alter table orderlist add constraint fk_orderid foreign key(orderid) references orderlist_status(orderid);
+alter table orderlist add constraint fk_orderuserid foreign key(userid) references user(id);
+alter table orderlist add constraint fk_orderstandardid foreign key(standard_id) references computer(id);
+alter table orderlist add constraint fk_orderdiyid foreign key(diy_id) references diycomputer(id);
+create table if not exists orderlist_status(
+	orderid int(11) auto_increment primary key,
+    status varchar(255) default '已创建'
+    );
+
+create table if not exists shopping(
+    id int(11) auto_increment primary key,
+    userid int(11) not null,
+    standard_id int(11) default null,
+    diy_id int(11) default null
+    );
+alter table shopping add constraint fk_shoppinguserid foreign key(userid) references user(id);
+alter table shopping add constraint fk_shoppingstandardid foreign key(standard_id) references computer(id);
+alter table shopping add constraint fk_shoppingdiyid foreign key(diy_id) references diycomputer(id);
+
+create table if not exists computer(
+    id int(11) primary key auto_increment,
+    brand_id int(11) not null,
+    type varchar(255) default null,
+    img varchar(255) default null,
+    series varchar(255) default null,
+    color varchar(255) default null,
+    platform varchar(255) default null,
+    model varchar(255) default null,
+    os varchar(255) default null,
+    speaker varchar(255) default null,
+    microphone varchar(255) default null,
+    keyboard varchar(255) default null,
+    touchpad varchar(255) default null,
+    power varchar(255) default null,
+    graphics_size varchar(255) default null,
+    graphics_type varchar(255) default null,
+    show_port varchar(255) default null,
+    audio_port varchar(255) default null,
+    screen_type varchar(255) default null,
+    screen_size varchar(255) default null,
+    screen_resolution varchar(255) default null,
+    ram_size varchar(255) default null,
+    hdd varchar(255) default null,
+    ssd varchar(255) default null,
+    cpu_model varchar(255) default null,
+    cpu_num varchar(255) default null,
+    optical_type varchar(255) default null,
+    price double default null,
+    abs varchar(255) default null,
+    num int default null
+);
+alter table computer add constraint fk_brandid foreign key(brand_id) references category(id);
+create table if not exists category(
+    id int(11) auto_increment primary key,
+    brand varchar(255) default null,
+    store varchar(255) default null
+);
+
+create table if not exists screen(
+    id int(11) auto_increment primary key,
+    screen_type varchar(255) default null,
+    screen_size varchar(255) default null,
+    screen_resolution varchar(255),
+    price double default null,
+    num int default null
+);
+create table if not exists ram(
+    id int(11) auto_increment primary key,
+    ram_size varchar(255) default null,
+    price double default null,
+    num int default null
+);
+create table if not exists disk(
+    id int(11) auto_increment primary key,
+    disk_type varchar(255) default null,
+    disk_size varchar(255) default null,
+    price double default null,
+    num int default null
+);
+create table if not exists cpu(
+    id int(11) auto_increment primary key,
+    cpu_num varchar(255) default null,
+    price double default null,
+    num int default null
+);
+create table if not exists power(
+    id int(11) auto_increment primary key,
+    power_type varchar(255) default null,
+    price double default null,
+    num int default null
+);
+create table if not exists graphics(
+    id int(11) auto_increment primary key,
+    graphics_size varchar(255) default null,
+    graphics_type varchar(255) default null,
+    price double default null,
+    num int default null
+);
+create table if not exists manager(
+    id int(11) auto_increment primary key,
+    username varchar(255) not null unique,
+    password varchar(255) not null,
+    name varchar(255) default null
+);
+
+create table if not exists pay(
+   id int(11) auto_increment primary key ,
+   pay_type varchar(255) default null,
+   pay_id varchar(255) default null,
+   pay_password varchar(255) default null,
+   amount double
+);
+
+create table if not exists diycomputer(
+    id int(11) primary key auto_increment,
+    brand_id int(11) default 3,
+    type varchar(255) default '组装电脑',
+    img varchar(255) default 'http://www.diyooo.com/uploads/allimg/180326/1-1P326213K5458.jpg',
+    series varchar(255) default '组装系列',
+    color varchar(255) default '黑色',
+    platform varchar(255) default '无',
+    model varchar(255) default '无',
+    os varchar(255) default '无',
+    speaker varchar(255) default '内置扬声器',
+    microphone varchar(255) default '内置麦克风',
+    keyboard varchar(255) default '全尺寸键盘',
+    touchpad varchar(255) default '触摸板',
+    power varchar(255) default null,
+    graphics_size varchar(255) default null,
+    graphics_type varchar(255) default null,
+    show_port varchar(255) default 'HDMI 2.0x1',
+    audio_port varchar(255) default '耳机、麦克风二合一接口',
+    screen_type varchar(255) default null,
+    screen_size varchar(255) default null,
+    screen_resolution varchar(255) default null,
+    ram_size varchar(255) default null,
+    hdd varchar(255) default '无',
+    ssd varchar(255) default '无',
+    cpu_model varchar(255) default 'i5-9300H',
+    cpu_num varchar(255) default null,
+    optical_type varchar(255) default '无光驱',
+    price double default null,
+    abs varchar(255) default '京东组装电脑系列',
+    num int default 1
+);
+
+--更新库存量触发器
+delimiter $$
+create trigger updatenum after insert on orderlist for each row
+begin
+   if new.standard_id is not null then
+      update computer c set c.num=c.num-1 where id=new.standard_id;
+	elseif new.diy_id is not null then
+       update screen set num=num-1 where id=(select screen_id from diy where id=new.diy_id);
+       update ram set num=num-1 where id=(select ram_id from diy where id=new.diy_id);
+       update disk set num=num-1 where id=(select disk_id from diy where id=new.diy_id);
+       update cpu set num=num-1 where id=(select cpu_id from diy where id=new.diy_id);
+       update power set num=num-1 where id=(select power_id from diy where id=new.diy_id);
+       update graphics set num=num-1 where id=(select graphics_id from diy where id=new.diy_id);
+	end if;
+end$$
+delimiter ;
+
+--生成组装电脑后自动插入购物车
+delimiter $$
+create trigger creatediytoshopping after insert on diy for each row
+begin
+    insert into shopping(userid,diy_id) values((select id from user where user_status='购物中'),new.id);
+end$$
+delimiter ;
+
+--所有标准电脑视图
+create view v_allcomputers as
+   select computer.id,computer.img,category.brand,computer.series,computer.model,computer.price,category.store,computer.abs from category inner join computer on category.id=computer.brand_id;
+
+create view v_orderlist as
+select orderlist.id,orderlist.orderid,orderlist.userid,orderlist.standard_id,orderlist.diy_id,computer.price,status
+    from orderlist,orderlist_status,computer where
+    orderlist.standard_id=computer.id and orderlist.orderid=orderlist_status.orderid
+            union
+    select orderlist.id,orderlist.orderid,orderlist.userid,orderlist.standard_id,orderlist.diy_id,diycomputer.price,status
+    from orderlist,orderlist_status,diycomputer where
+    orderlist.diy_id=diycomputer.id and orderlist.orderid=orderlist_status.orderid;
+
+create view v_shopping as
+SELECT shopping.id,computer.img, computer.type, computer.abs, computer.model,computer.cpu_model, 
+computer.ssd, computer.ram_size, computer.price
+FROM shopping INNER JOIN computer on shopping.standard_id=computer.id
+union
+SELECT shopping.id,diycomputer.img, diycomputer.type, diycomputer.abs, diycomputer.model, 
+diycomputer.cpu_model, diycomputer.ssd, diycomputer.ram_size, diycomputer.price
+FROM shopping INNER JOIN diycomputer on shopping.diy_id=diycomputer.id
+
+--退出登录的存储过程
+delimiter $$
+create procedure logout()
+begin
+    set sql_safe_updates=0;
+    delete from orderlist;
+    delete from orderlist_status;
+    delete from diy;
+    update user u set user_status='注销' where u.user_status='购物中';
+    set sql_safe_updates=0;
+end$$
+delimiter ;
+
+insert category values(null,'戴尔DELL','戴尔京东自营官方旗舰店');
+insert category values(null,'华为HUAWEI','华为京东自营官方旗舰店');
+
+insert computer values(null,1,'标准电脑','https://img14.360buyimg.com/n0/jfs/t1/50602/38/11334/178809/5d84543bEa0754884/9b485dc7e5be6861.jpg',
+'游匣','黑色','Intel','Ins 15PR-1648BR','Windows 10','内置扬声器','内置麦克风','全尺寸键盘','触摸板',
+'3芯 锂离子电池','独立4GB','独立显卡','HDMI 2.0x1','耳机、麦克风二合一接口','IPS','15.6英寸','1920x1080','8GB',
+'无','512GB SSD','i5-9300H','四核','无光驱','6099','外星人智控中心，G模式一键散热，九代压标，GTX显卡，窄边框，72高色域，双风扇散热',22);
+insert computer values(null,2,'标准电脑','https://img14.360buyimg.com/n0/jfs/t1/95693/36/476/321774/5dae7c18E9d8f1859/a0906237d2cd30ad.jpg',
+'MateBook','皓月银','AMD','HUAWEI MateBook 13','Linux','无','内置麦克风','全尺寸键盘，背光键盘','多点触控',
+'3芯 锂离子电池','8GB','集成显卡','无','耳机、麦克风二合一接口','IPS','13.0英寸','2160x1440像素','8GB',
+'无','512GB SSD','无','无','无光驱','4099','【新品MateBookDLinux版预约立省100元到手仅3599，送蓝牙鼠标，评价晒单再赢双肩包】 高清全面屏，为您开启全新视野！',45);
+insert computer values(null,1,'标准电脑','https://img14.360buyimg.com/n0/jfs/t1/53087/19/1414/384885/5cf2ffc5Efe697aac/098bd5d284d95e80.jpg',
+'Inspiron','银色','Intel','Ins 14-5488-R2725S','Windows 10','无','内置麦克风','背光键盘','多点触控',
+'3芯 锂离子电池','无','独立显卡','无','耳机、麦克风二合一接口','IPS','14.0英寸','1920x1080','8GB',
+'无','256GB SSD','i7-8568U','无','无光驱','5499','全新性能增强版第八代处理器,三边全景微边框,IPS全高清屏,MX250显卡,2G独显,PCIe高速固态硬盘,背光键盘',13);
+insert computer values(null,2,'标准电脑','https://img14.360buyimg.com/n0/jfs/t1/70773/36/13636/292050/5dae7d3cEe68d4696/7ac2e81389bca515.jpg',
+'MateBook','深空灰','Intel','HUAWEI MateBook 14','Linux','无','内置麦克风','全尺寸键盘，背光键盘','多点触控',
+'内置锂离子电池','2GB','独立显卡','HDMI接口','耳机、麦克风二合一接口','IPS','13.0英寸','2160x1440像素，185PPI（每英寸像素点）','8GB',
+'无','512GB SSD','第八代智能英特尔酷睿i5 8265U处理器','四核','无光驱','5699','【新品MateBookDLinux版预约立省100元到手仅3599，送蓝牙鼠标，评价晒单再赢双肩包】 高清全面屏，为您开启全新视野！',24);
+
+insert screen values(null,'IPS','23.8英寸','1920x1080',699,6);
+insert screen values(null,'IPS','27.8英寸','2560x1440',1399,4);
+insert screen values(null,'IPS','14英寸','1920x1080',315,10);
+
+insert ram values(null,'4G',148,20);
+insert ram values(null,'8G',255,15);
+insert ram values(null,'16G',489,12);
+
+insert disk values(null,'固态硬盘','125G',388,15);
+insert disk values(null,'机械硬盘','125G',258,20);
+insert disk values(null,'固态硬盘','256G',480,13);
+insert disk values(null,'机械硬盘','256G',350,13);
+
+insert cpu values(null,'2核',45,21);
+insert cpu values(null,'4核',105,11);
+insert cpu values(null,'8核',250,9);
+
+insert power values(null,'3芯 锂离子电池',48,7);
+insert power values(null,'5芯 锂离子电池',80,32);
+insert power values(null,'10芯 锂离子电池',150,16);
+
+insert graphics values(null,'4G','独立显卡',138,7);
+insert graphics values(null,'4G','集成显卡',75,4);
+insert graphics values(null,'8G','独立显卡',255,9);
+insert graphics values(null,'8G','集成显卡',149,7);
+
+insert manager values(null, 'Manager', '123456', 'Jerry');
+
+insert pay values(null,'微信支付',1456372,213896,6000);
+insert pay values(null,'支付宝支付',2876413,463189,7000);
