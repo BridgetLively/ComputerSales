@@ -1,6 +1,6 @@
 # ComputerSales
 
-## web计算机网上销售系统
+## _web计算机网上销售系统_
 
 使用springboot作为后端，vue作为前端，mysql为数据库。 
 
